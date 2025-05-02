@@ -14,4 +14,5 @@ public class Apolice {
     private BigDecimal valorFranquia;
     private BigDecimal valorPremio;
     private BigDecimal valorMaximoSegurado;
+    private String numero;
 }
