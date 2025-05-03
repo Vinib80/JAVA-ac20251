@@ -5,11 +5,12 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.io.Serializable;
 
 @Setter
 @Getter
 @AllArgsConstructor
-public class Apolice {
+public class Apolice implements Serializable {
     private Veiculo veiculo;
     private BigDecimal valorFranquia;
     private BigDecimal valorPremio;
