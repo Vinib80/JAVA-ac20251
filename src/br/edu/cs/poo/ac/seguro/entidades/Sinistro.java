@@ -6,11 +6,13 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.io.Serializable;
 
 @Getter
 @Setter
 @AllArgsConstructor
-public class Sinistro {
+
+public class Sinistro implements Serializable {
     private String numero;
     private Veiculo veiculo;
     private LocalDateTime dataHoraSinistro;
