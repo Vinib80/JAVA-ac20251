@@ -2,17 +2,20 @@ package br.edu.cs.poo.ac.seguro.entidades;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.io.Serializable;
 
 @Getter
 @Setter
 @AllArgsConstructor
-
+@NoArgsConstructor
 public class Sinistro implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private String numero;
     private Veiculo veiculo;
     private LocalDateTime dataHoraSinistro;
@@ -20,5 +23,4 @@ public class Sinistro implements Serializable {
     private String usuarioRegistro;
     private BigDecimal valorSinistro;
     private TipoSinistro tipo;
-
 }

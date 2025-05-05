@@ -1,42 +1,106 @@
 package br.edu.cs.poo.ac.seguro.testes;
 
-import br.edu.cs.poo.ac.seguro.entidades.Apolice;
-import br.edu.cs.poo.ac.seguro.entidades.Veiculo;
-import br.edu.cs.poo.ac.seguro.daos.ApoliceDAO;
-
 import java.math.BigDecimal;
 
-public class TesteApoliceDAO {
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-    public static void teste01() {
-        Veiculo veiculo = new Veiculo("ABC1234", 2020, null, null, null);
-        Apolice apolice = new Apolice(
-                veiculo,
-                new BigDecimal("1500.00"),
-                new BigDecimal("900.00"),
-                new BigDecimal("30000.00"),
-                "APOL123"
-        );
+import br.edu.cs.poo.ac.seguro.daos.ApoliceDAO;
+import br.edu.cs.poo.ac.seguro.entidades.Apolice;
+import br.edu.cs.poo.ac.seguro.entidades.CategoriaVeiculo;
+import br.edu.cs.poo.ac.seguro.entidades.Veiculo;
 
-        ApoliceDAO dao = new ApoliceDAO();
-        boolean sucesso = dao.incluir(apolice);
+public class TesteApoliceDAO extends TesteDAO {
 
-        System.out.println("[Teste 01 - Inclusão] " + (sucesso ? "SUCESSO" : "FALHA"));
+    private ApoliceDAO dao = new ApoliceDAO();
+
+    @Override
+    protected Class getClasse() {
+        return Apolice.class;
     }
 
-    public static void teste02() {
-        ApoliceDAO dao = new ApoliceDAO();
-        Apolice apoliceRecuperada = dao.buscar("APOL123");
-
-        if (apoliceRecuperada != null) {
-            System.out.println("[Teste 02 - Busca] Número encontrado: " + apoliceRecuperada.getNumero());
-        } else {
-            System.out.println("[Teste 02 - Busca] FALHA - Apólice não encontrada");
-        }
+    @Test
+    public void teste01() {
+        String numero = "APOL001";
+        Apolice apolice = gerarApolice(numero);
+        cadastro.incluir(apolice, numero);
+        Apolice res = dao.buscar(numero);
+        Assertions.assertNotNull(res);
     }
 
-    public static void main(String[] args) {
-        teste01();
-        teste02();
+    @Test
+    public void teste02() {
+        String numero = "APOL002";
+        Apolice apolice = gerarApolice(numero);
+        cadastro.incluir(apolice, numero);
+        Apolice res = dao.buscar("APOL999");
+        Assertions.assertNull(res);
+    }
+
+    @Test
+    public void teste03() {
+        String numero = "APOL003";
+        Apolice apolice = gerarApolice(numero);
+        cadastro.incluir(apolice, numero);
+        boolean res = dao.excluir(numero);
+        Assertions.assertTrue(res);
+    }
+
+    @Test
+    public void teste04() {
+        String numero = "APOL004";
+        Apolice apolice = gerarApolice(numero);
+        cadastro.incluir(apolice, numero);
+        boolean res = dao.excluir("APOL999");
+        Assertions.assertFalse(res);
+    }
+
+    @Test
+    public void teste05() {
+        String numero = "APOL005";
+        Apolice apolice = gerarApolice(numero);
+        boolean res = dao.incluir(apolice);
+        Assertions.assertTrue(res);
+        Apolice ver = dao.buscar(numero);
+        Assertions.assertNotNull(ver);
+    }
+
+    @Test
+    public void teste06() {
+        String numero = "APOL006";
+        Apolice apolice = gerarApolice(numero);
+        cadastro.incluir(apolice, numero);
+        boolean res = dao.incluir(apolice);
+        Assertions.assertFalse(res);
+    }
+
+    @Test
+    public void teste07() {
+        String numero = "APOL007";
+        Apolice apolice = gerarApolice(numero);
+        boolean res = dao.alterar(apolice);
+        Assertions.assertFalse(res);
+        Apolice ver = dao.buscar(numero);
+        Assertions.assertNull(ver);
+    }
+
+    @Test
+    public void teste08() {
+        String numero = "APOL008";
+        Apolice apolice1 = gerarApolice(numero);
+        cadastro.incluir(apolice1, numero);
+
+        Apolice apolice2 = gerarApolice(numero);
+        boolean res = dao.alterar(apolice2);
+        Assertions.assertTrue(res);
+    }
+
+    private Apolice gerarApolice(String numero) {
+        Veiculo veiculo = new Veiculo("XYZ1234", 2020, null, null, CategoriaVeiculo.BASICO);
+        return new Apolice(veiculo,
+                new BigDecimal("500.00"),
+                new BigDecimal("300.00"),
+                new BigDecimal("20000.00"),
+                numero);
     }
 }

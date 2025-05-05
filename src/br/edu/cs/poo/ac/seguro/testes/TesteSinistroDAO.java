@@ -1,47 +1,96 @@
 package br.edu.cs.poo.ac.seguro.testes;
 
-import br.edu.cs.poo.ac.seguro.entidades.Sinistro;
-import br.edu.cs.poo.ac.seguro.entidades.Veiculo;
-import br.edu.cs.poo.ac.seguro.entidades.TipoSinistro;
-import br.edu.cs.poo.ac.seguro.daos.SinistroDAO;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-public class TesteSinistroDAO {
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-    public static void teste01() {
-        Veiculo veiculo = new Veiculo("XYZ9876", 2022, null, null, null);
+import br.edu.cs.poo.ac.seguro.daos.SinistroDAO;
+import br.edu.cs.poo.ac.seguro.entidades.Sinistro;
+import br.edu.cs.poo.ac.seguro.entidades.TipoSinistro;
+import br.edu.cs.poo.ac.seguro.entidades.Veiculo;
 
-        Sinistro sinistro = new Sinistro(
-                "S001",
-                veiculo,
-                LocalDateTime.of(2024, 12, 1, 14, 30),
-                LocalDateTime.now(),
-                "admin",
-                new BigDecimal("5000.00"),
-                TipoSinistro.COLISAO
-        );
+public class TesteSinistroDAO extends TesteDAO {
+    private SinistroDAO dao = new SinistroDAO();
 
-        SinistroDAO dao = new SinistroDAO();
-        boolean sucesso = dao.incluir(sinistro);
-
-        System.out.println("[Teste 01 - Inclusão] " + (sucesso ? "SUCESSO" : "FALHA"));
+    @Override
+    protected Class getClasse() {
+        return Sinistro.class;
     }
 
-    public static void teste02() {
-        SinistroDAO dao = new SinistroDAO();
-        Sinistro sinistroRecuperado = dao.buscar("S001");
-
-        if (sinistroRecuperado != null) {
-            System.out.println("[Teste 02 - Busca] Sinistro encontrado: " + sinistroRecuperado.getNumero());
-        } else {
-            System.out.println("[Teste 02 - Busca] FALHA - Sinistro não encontrado");
-        }
+    @Test
+    public void teste01() {
+        String numero = "S001";
+        Sinistro sin = new Sinistro(numero,new Veiculo(), LocalDateTime.now(), LocalDateTime.now(), "user1", BigDecimal.TEN, TipoSinistro.COLISAO);
+        cadastro.incluir(sin, numero);
+        Sinistro res = dao.buscar(numero);
+        Assertions.assertNotNull(res);
     }
 
-    public static void main(String[] args) {
-        teste01();
-        teste02();
+    @Test
+    public void teste02() {
+        String numero = "S002";
+        Sinistro sin = new Sinistro(numero, new Veiculo(), LocalDateTime.now(), LocalDateTime.now(), "user2", BigDecimal.ONE, TipoSinistro.FURTO);
+        cadastro.incluir(sin, numero);
+        Sinistro res = dao.buscar("S999");
+        Assertions.assertNull(res);
+    }
+
+    @Test
+    public void teste03() {
+        String numero = "S003";
+        Sinistro sin = new Sinistro(numero, new Veiculo(), LocalDateTime.now(), LocalDateTime.now(), "user3", BigDecimal.ZERO, TipoSinistro.INCENDIO);
+        cadastro.incluir(sin, numero);
+        boolean res = dao.excluir(numero);
+        Assertions.assertTrue(res);
+    }
+
+    @Test
+    public void teste04() {
+        String numero = "S004";
+        Sinistro sin = new Sinistro(numero, new Veiculo(), LocalDateTime.now(), LocalDateTime.now(), "user4", BigDecimal.valueOf(500), TipoSinistro.ENCHENTE);
+        cadastro.incluir(sin, numero);
+        boolean res = dao.excluir("S999");
+        Assertions.assertFalse(res);
+    }
+
+    @Test
+    public void teste05() {
+        String numero = "S005";
+        Sinistro sin = new Sinistro(numero, new Veiculo(), LocalDateTime.now(), LocalDateTime.now(), "user5", BigDecimal.valueOf(1500), TipoSinistro.DEPREDACAO);
+        boolean res = dao.incluir(sin);
+        Assertions.assertTrue(res);
+        Sinistro ver = dao.buscar(numero);
+        Assertions.assertNotNull(ver);
+    }
+
+    @Test
+    public void teste06() {
+        String numero = "S006";
+        Sinistro sin = new Sinistro(numero, new Veiculo(), LocalDateTime.now(), LocalDateTime.now(), "user6", BigDecimal.valueOf(300), TipoSinistro.COLISAO);
+        cadastro.incluir(sin, numero);
+        boolean res = dao.incluir(sin);
+        Assertions.assertFalse(res);
+    }
+
+    @Test
+    public void teste07() {
+        String numero = "S007";
+        Sinistro sin = new Sinistro(numero, new Veiculo(), LocalDateTime.now(), LocalDateTime.now(), "user7", BigDecimal.valueOf(10), TipoSinistro.FURTO);
+        boolean res = dao.alterar(sin);
+        Assertions.assertFalse(res);
+        Sinistro ver = dao.buscar(numero);
+        Assertions.assertNull(ver);
+    }
+
+    @Test
+    public void teste08() {
+        String numero = "S008";
+        Sinistro sin1 = new Sinistro(numero, new Veiculo(), LocalDateTime.now(), LocalDateTime.now(), "user8", BigDecimal.valueOf(900), TipoSinistro.INCENDIO);
+        cadastro.incluir(sin1, numero);
+        Sinistro sin2 = new Sinistro(numero, new Veiculo(), LocalDateTime.now(), LocalDateTime.now(), "user8b", BigDecimal.valueOf(800), TipoSinistro.ENCHENTE);
+        boolean res = dao.alterar(sin2);
+        Assertions.assertTrue(res);
     }
 }
