@@ -2,7 +2,7 @@
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
-JAVA ac20251.iml
+"JAVA ac20251.iml"
 
 ### Eclipse ###
 .apt_generated
