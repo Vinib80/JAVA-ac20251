@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import br.edu.cs.poo.ac.seguro.entidades.Endereco;
 
 public class SeguradoMediator {
-    private SeguradoMediator med = SeguradoMediator.getInstancia();
     private static SeguradoMediator instancia;
 
     private SeguradoMediator(){

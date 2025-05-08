@@ -3,10 +3,7 @@ package br.edu.cs.poo.ac.seguro.mediators;
 public class StringUtils {
     private StringUtils() {}
     public static boolean ehNuloOuBranco(String str) {
-        if (str == null || str.isBlank()) {
-            return false;
-        }
-        return true;
+        return str == null || str.isBlank();
     }
     public static boolean temSomenteNumeros(String input) {
         if (!input.matches("[0-9]+")) {

@@ -10,9 +10,7 @@ import br.edu.cs.poo.ac.seguro.mediators.ValidadorCpfCnpj;
 import javax.print.DocFlavor;
 
 public class SeguradoPessoaMediator {
-    SeguradoMediator seguradoMediator = SeguradoMediator.getInstancia();
     SeguradoPessoaDAO seguradoPessoaDAO = new SeguradoPessoaDAO();
-    private SeguradoPessoaMediator med = SeguradoPessoaMediator.getInstancia();
     private static SeguradoPessoaMediator instancia;
 
 
@@ -29,7 +27,7 @@ public class SeguradoPessoaMediator {
     }
 
     public String validarCpf(String cpf) {
-        if (!StringUtils.ehNuloOuBranco(cpf)) {
+        if (StringUtils.ehNuloOuBranco(cpf)) {
             return "CPF deve ser informado";
         }
         if (cpf.length() != 11) {
@@ -48,7 +46,7 @@ public class SeguradoPessoaMediator {
     }
     public String incluirSeguradoPessoa(SeguradoPessoa seg) {
         String msg = null;
-        if (!StringUtils.ehNuloOuBranco(seg.getNome())) {
+        if (StringUtils.ehNuloOuBranco(seg.getNome())) {
             msg = "Nome deve ser informado";
         } else if (seg.getEndereco() == null) {
             msg = "Endereço deve ser informado";
@@ -58,15 +56,31 @@ public class SeguradoPessoaMediator {
             msg = validarCpf(seg.getCpf());
         } else if (validarRenda(seg.getRenda()) != null) {
             msg = validarRenda(seg.getRenda());
+        } else if (!seguradoPessoaDAO.incluir(seg)) {
+            msg = "CPF do segurado pessoa já existente";
         }
         return msg;
     }
     public String alterarSeguradoPessoa(SeguradoPessoa seg) {
-
+        if (!StringUtils.ehNuloOuBranco(seg.getNome())) {
+            return "Nome deve ser informado";
+        } else if (seg.getEndereco() == null) {
+            return "Endereço deve ser informado";
+        } else if (seg.getDataNascimento() == null) {
+            return "Data do nascimento deve ser informada";
+        } else if (validarCpf(seg.getCpf()) != null) {
+            return validarCpf(seg.getCpf());
+        } else if (validarRenda(seg.getRenda()) != null) {
+            return validarRenda(seg.getRenda());
+        } else if (buscarSeguradoPessoa(seg.getCpf()) == null) {
+            return "CPF do segurado pessoa não existente";
+        }
         return null;
     }
     public String excluirSeguradoPessoa(String cpf) {
-
+        if (!seguradoPessoaDAO.excluir(cpf)) {
+            return "CPF do segurado pessoa não existente";
+        }
         return null;
     }
     public SeguradoPessoa buscarSeguradoPessoa(String cpf) {

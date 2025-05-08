@@ -40,7 +40,7 @@ public class ValidadorCpfCnpj {
         int digito2 = soma2 % 11;
         digito2 = (digito2 < 2) ? 0 : 11 - digito2;
 
-        if (!(cpf.charAt(9) - '0' == digito1) && (cpf.charAt(10) - '0' == digito2)) {
+        if (!(cpf.charAt(9) - '0' == digito1) && !(cpf.charAt(10) - '0' == digito2)) {
             return false;
         }
         return true;
