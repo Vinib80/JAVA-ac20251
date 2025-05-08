@@ -41,16 +41,12 @@ public class SeguradoMediator {
         if (StringUtils.ehNuloOuBranco(endereco.getPais())) return "País deve ser informado";
         if (endereco.getPais().length() > 40) return "Tamanho do país deve ser no máximo 40 caracteres";
 
-        if (endereco.getNumero() == null) {
-            return "Número inválido";
+        if (endereco.getNumero() != null && endereco.getNumero().length() > 20) {
+                return "Tamanho do número deve ser no máximo 20 caracteres";
         }
 
-        if (endereco.getNumero().length() > 20) {
-            return "Tamanho do número deve ser no máximo 20 caracteres";
-        }
-
-        if (StringUtils.ehNuloOuBranco(endereco.getComplemento())) return "CEP deve ter formato NNNNNNNN";
-        if (endereco.getComplemento().length() > 30) return "Tamanho do complemento deve ser no máximo 30 caracteres";
+        if (StringUtils.ehNuloOuBranco(endereco.getCep()) || endereco.getCep().length() != 8 || !StringUtils.temSomenteNumeros(endereco.getCep())) return "CEP deve ter formato NNNNNNNN";
+        if (endereco.getComplemento()!= null && endereco.getComplemento().length() > 30) return "Tamanho do complemento deve ser no máximo 30 caracteres";
 
         return null;
     }
@@ -70,7 +66,7 @@ public class SeguradoMediator {
         }
 
         if (bonus.compareTo(valorDebito) >= 0) {
-            return bonus.subtract(valorDebito);
+            return valorDebito;
         }
         return bonus;
     }
