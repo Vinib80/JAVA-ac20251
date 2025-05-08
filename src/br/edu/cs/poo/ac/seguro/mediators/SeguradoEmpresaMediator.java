@@ -29,8 +29,6 @@ public class SeguradoEmpresaMediator {
             return "CNPJ deve ter 14 caracteres";
         } else if (!ValidadorCpfCnpj.ehCnpjValido(cnpj)) {
             return "CNPJ com dígito inválido";
-        } else if (buscarSeguradoEmpresa(cnpj) != null) {
-            return "CNPJ do segurado empresa já existente";
         }
         return null;
     }
@@ -41,28 +39,21 @@ public class SeguradoEmpresaMediator {
         return null;
     }
     public String incluirSeguradoEmpresa(SeguradoEmpresa seg) {
-        String msg = validarSeguradoEmpresa(seg);
-        if (msg != null) {
-            return msg;
-        }
-        seguradoEmpresaDAO.incluir(seg);
-        return null;
-    }
-    public String alterarSeguradoEmpresa(SeguradoEmpresa seg) {
-        String msg = validarSeguradoEmpresa(seg);
+        String msg = validarSeguradoEmpresa(seg, true);
         if (msg != null) return msg;
 
-        if (seguradoEmpresaDAO.buscar(seg.getCnpj()) == null) {
-            return "CPF do segurado pessoa não existente";
-        }
+        boolean ok = seguradoEmpresaDAO.incluir(seg);
+        return ok ? null : "Erro ao incluir segurado empresa";
+    }
+
+    public String alterarSeguradoEmpresa(SeguradoEmpresa seg) {
+        String msg = validarSeguradoEmpresa(seg, false);
+        if (msg != null) return msg;
 
         boolean ok = seguradoEmpresaDAO.alterar(seg);
-        if (!ok) {
-            return "Não foi possível alterar o segurado pessoa";
-        }
-
-        return null;
+        return ok ? null : "Erro ao alterar segurado empresa";
     }
+
     public String excluirSeguradoEmpresa(String cnpj) {
         return null;
     }
@@ -72,38 +63,34 @@ public class SeguradoEmpresaMediator {
         }
         return seguradoEmpresaDAO.buscar(cnpj);
     }
-    public String validarSeguradoEmpresa(SeguradoEmpresa seg) {
+
+    public String validarSeguradoEmpresa(SeguradoEmpresa seg, boolean isInclusao) {
+        if (seg == null) return "Segurado empresa não pode ser nulo";
+
         String msg;
 
         msg = seguradoMediator.validarNome(seg.getNome());
-        if (msg != null) {
-            return msg;
-        }
+        if (msg != null) return msg;
 
         msg = seguradoMediator.validarEndereco(seg.getEndereco());
-        if (msg != null) {
-            return msg;
-        }
+        if (msg != null) return msg;
 
         msg = seguradoMediator.validarDataCriacao(seg.getDataAbertura());
-        if (msg != null) {
-            return "Data da abertura deve ser informada";
-        }
+        if (msg != null) return "Data da abertura deve ser informada";
 
         msg = validarFaturamento(seg.getFaturamento());
-        if (msg != null) {
-            return msg;
-        }
+        if (msg != null) return msg;
 
         msg = validarCnpj(seg.getCnpj());
-        if (msg != null) {
-            return msg;
-        }
+        if (msg != null) return msg;
 
+        boolean existe = seguradoEmpresaDAO.buscar(seg.getCnpj()) != null;
 
+        if (isInclusao && existe) return "CNPJ do segurado empresa já existente";
+        if (!isInclusao && !existe) return "CNPJ do segurado empresa não existente";
 
         return null;
-
     }
+
 
 }
