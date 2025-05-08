@@ -44,7 +44,7 @@ public class SeguradoMediator {
         if (endereco.getNumero() == null) {
             return "Número inválido";
         }
-        //
+
         if (endereco.getNumero().length() > 20) {
             return "Tamanho do número deve ser no máximo 20 caracteres";
         }

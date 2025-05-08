@@ -15,7 +15,7 @@ public class ValidadorCpfCnpj {
             soma1 += dig * (10 - i);
             soma2 += dig * (11 - i);
         }
-//
+
         int dig1 = soma1 % 11 < 2 ? 0 : 11 - (soma1 % 11);
         soma2 += dig1 * 2;
         int dig2 = soma2 % 11 < 2 ? 0 : 11 - (soma2 % 11);
