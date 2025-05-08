@@ -7,7 +7,7 @@ public class StringUtils {
     public static boolean ehNuloOuBranco(String str) {
         return str == null || str.trim().isEmpty();
     }
-
+//
     public static boolean temSomenteNumeros(String input) {
         if (ehNuloOuBranco(input)) {
             return false;

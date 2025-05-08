@@ -23,7 +23,7 @@ public class Endereco implements Serializable {
         this.estado = estado;
         this.cidade = cidade;
     }
-
+//
     public String getLogradouro() { return logradouro; }
     public void setLogradouro(String logradouro) { this.logradouro = logradouro; }
 

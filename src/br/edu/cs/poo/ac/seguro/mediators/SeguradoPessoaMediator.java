@@ -99,7 +99,7 @@ public class SeguradoPessoaMediator {
         return null;
     }
 
-
+    //
     public String excluirSeguradoPessoa(String cpf) {
         if (StringUtils.ehNuloOuBranco(cpf)) {
             return "CPF deve ser informado";
