@@ -6,7 +6,6 @@ import br.edu.cs.poo.ac.seguro.entidades.SeguradoEmpresa;
 public class SeguradoEmpresaMediator {
     SeguradoMediator seguradoMediator;
     SeguradoEmpresaDAO seguradoEmpresaDAO;
-    private SeguradoEmpresaMediator med = SeguradoEmpresaMediator.getInstancia();
     private static SeguradoEmpresaMediator instancia;
 
     private SeguradoEmpresaMediator(){
