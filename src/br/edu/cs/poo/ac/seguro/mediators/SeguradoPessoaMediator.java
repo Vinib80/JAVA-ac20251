@@ -62,7 +62,7 @@ public class SeguradoPessoaMediator {
         return msg;
     }
     public String alterarSeguradoPessoa(SeguradoPessoa seg) {
-        if (!StringUtils.ehNuloOuBranco(seg.getNome())) {
+        if (StringUtils.ehNuloOuBranco(seg.getNome())) {
             return "Nome deve ser informado";
         } else if (seg.getEndereco() == null) {
             return "Endereço deve ser informado";
@@ -75,6 +75,7 @@ public class SeguradoPessoaMediator {
         } else if (buscarSeguradoPessoa(seg.getCpf()) == null) {
             return "CPF do segurado pessoa não existente";
         }
+        seguradoPessoaDAO.alterar(seg);
         return null;
     }
     public String excluirSeguradoPessoa(String cpf) {
