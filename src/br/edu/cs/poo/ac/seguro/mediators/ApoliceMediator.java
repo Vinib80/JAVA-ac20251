@@ -71,7 +71,7 @@ public class ApoliceMediator {
             }
         } else if (dados.getCpfOuCnpj().length() == 14) {
             if (!ValidadorCpfCnpj.ehCnpjValido(dados.getCpfOuCnpj())) {
-                return new RetornoInclusaoApolice(null, "CPF inválido").getMensagemErro();
+                return new RetornoInclusaoApolice(null, "CNPJ inválido").getMensagemErro();
             }
         } if (StringUtils.ehNuloOuBranco(dados.getPlaca())) {
             return new RetornoInclusaoApolice(null, "Placa do veículo deve ser informada").getMensagemErro();
