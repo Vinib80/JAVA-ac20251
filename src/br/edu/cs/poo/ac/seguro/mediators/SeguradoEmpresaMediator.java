@@ -55,6 +55,19 @@ public class SeguradoEmpresaMediator {
     }
 
     public String excluirSeguradoEmpresa(String cnpj) {
+        if (StringUtils.ehNuloOuBranco(cnpj)) {
+            return "CNPJ deve ser informado";
+        }
+
+        if (seguradoEmpresaDAO.buscar(cnpj) == null) {
+            return "CNPJ do segurado empresa não existente";
+        }
+
+        boolean ok = seguradoEmpresaDAO.excluir(cnpj);
+        if (!ok) {
+            return "Não foi possível excluir o segurado empresa";
+        }
+
         return null;
     }
     public SeguradoEmpresa buscarSeguradoEmpresa(String cnpj) {
