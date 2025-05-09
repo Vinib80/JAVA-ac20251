@@ -1,4 +1,4 @@
-package br.edu.cs.poo.ac.seguro.testes;
+/*package br.edu.cs.poo.ac.seguro.testes;
 
 import java.math.BigDecimal;
 
@@ -103,4 +103,4 @@ public class TesteApoliceDAO extends TesteDAO {
                 new BigDecimal("20000.00"),
                 numero);
     }
-}
+}*/

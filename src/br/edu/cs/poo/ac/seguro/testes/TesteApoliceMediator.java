@@ -139,7 +139,7 @@ public class TesteApoliceMediator extends TesteMediator {
         Assertions.assertEquals("CNPJ inexistente no cadastro de empresas",
                 mediator.incluirApolice(dr).getMensagemErro());
     }
-    /*@Test
+    @Test
     public void test009() {
         String cpf = "07255431089";
         String placa = "KKK0019";
@@ -446,7 +446,7 @@ public class TesteApoliceMediator extends TesteMediator {
         cadastro.incluir(apEsp, NUM_AP);
         String msg = mediator.excluirApolice(NUM_AP);
         Assertions.assertEquals(null, msg);
-    }*/
+    }
     @Override
     protected Class getClasse() {
         return Apolice.class;

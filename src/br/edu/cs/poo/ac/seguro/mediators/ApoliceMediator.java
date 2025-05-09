@@ -36,8 +36,10 @@ public class ApoliceMediator {
     public RetornoInclusaoApolice incluirApolice(DadosVeiculo dados) {
         if (validarTodosDadosVeiculo(dados) != null) {
             return new RetornoInclusaoApolice(null, validarTodosDadosVeiculo(dados));
+        } else if (buscarApolice(dados.getAno() + "000" + dados.getCpfOuCnpj() + dados.getPlaca()) != null) {
+            return new RetornoInclusaoApolice(null, "Apólice já existente para ano atual e veículo");
         }
-        if (dados.getCpfOuCnpj().length() == 11) {
+        else if (dados.getCpfOuCnpj().length() == 11) {
             if (daoApo.buscar(dados.getCpfOuCnpj()) == null) {
                 return new RetornoInclusaoApolice(null, "CPF inexistente no cadastro de pessoas");
             }
@@ -45,8 +47,6 @@ public class ApoliceMediator {
             if (daoApo.buscar(dados.getCpfOuCnpj()) == null) {
                 return new RetornoInclusaoApolice(null, "CNPJ inexistente no cadastro de empresas");
             }
-        } else if (buscarApolice(LocalDate.now().getYear() + dados.getCpfOuCnpj() + dados.getPlaca()) != null) {
-            return new RetornoInclusaoApolice(null, "Apólice já existente para ano atual e veículo");
         }
         return null;
     }
