@@ -1,4 +1,4 @@
-/*package br.edu.cs.poo.ac.seguro.mediators;
+package br.edu.cs.poo.ac.seguro.mediators;
 
 import lombok.Getter;
 
@@ -20,4 +20,4 @@ public class RetornoInclusaoApolice {
 
     }
 }
-*/
+
