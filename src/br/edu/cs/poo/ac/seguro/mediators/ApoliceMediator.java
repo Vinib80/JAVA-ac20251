@@ -34,7 +34,9 @@ public class ApoliceMediator {
     }
 
     public RetornoInclusaoApolice incluirApolice(DadosVeiculo dados) {
-        validarTodosDadosVeiculo(dados);
+        if (validarTodosDadosVeiculo(dados) != null) {
+            return new RetornoInclusaoApolice(null, validarTodosDadosVeiculo(dados));
+        }
         if (dados.getCpfOuCnpj().length() == 11) {
             if (daoApo.buscar(dados.getCpfOuCnpj()) == null) {
                 return new RetornoInclusaoApolice(null, "CPF inexistente no cadastro de pessoas");
@@ -71,7 +73,7 @@ public class ApoliceMediator {
             if (!ValidadorCpfCnpj.ehCnpjValido(dados.getCpfOuCnpj())) {
                 return new RetornoInclusaoApolice(null, "CPF inválido").getMensagemErro();
             }
-        } else if (StringUtils.ehNuloOuBranco(dados.getPlaca())) {
+        } if (StringUtils.ehNuloOuBranco(dados.getPlaca())) {
             return new RetornoInclusaoApolice(null, "Placa do veículo deve ser informada").getMensagemErro();
         } else if (dados.getAno() < 2020 || dados.getAno() > 2025) {
             return new RetornoInclusaoApolice(null, "Ano tem que estar entre 2020 e 2025, incluindo estes").getMensagemErro();
