@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Sinistro implements Serializable {
+public class Sinistro implements Serializable, Registro {
     private static final long serialVersionUID = 1L;
 
     private String numero;
@@ -23,4 +23,9 @@ public class Sinistro implements Serializable {
     private String usuarioRegistro;
     private BigDecimal valorSinistro;
     private TipoSinistro tipo;
+
+    @Override
+    public String getIdUnico(){
+        return this.numero;
+    }
 }

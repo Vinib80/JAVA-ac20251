@@ -11,7 +11,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class Veiculo implements Serializable {
+public class Veiculo implements Serializable, Registro {
     private String placa;
     private int ano;
 //    private SeguradoEmpresa proprietarioEmpresa;
@@ -19,4 +19,8 @@ public class Veiculo implements Serializable {
     private CategoriaVeiculo categoria;
     private Segurado Proprietario;
 
+    @Override
+    public String getIdUnico(){
+        return this.placa;
+    }
 }

@@ -20,6 +20,11 @@ public class SeguradoEmpresa extends Segurado{
         return true;
     }
 
+    @Override
+    public String getIdUnico(){
+        return this.cnpj;
+    }
+
     public String getCnpj() {
         return cnpj;
     }
