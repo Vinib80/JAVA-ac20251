@@ -15,6 +15,11 @@ public class SeguradoEmpresa extends Segurado{
         this.ehLocadoraDeVeiculos = ehLocadoraDeVeiculos;
     }
 
+    @Override
+    public boolean isEmpresa(){
+        return true;
+    }
+
     public String getCnpj() {
         return cnpj;
     }

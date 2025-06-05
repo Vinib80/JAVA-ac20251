@@ -17,6 +17,11 @@ public class SeguradoPessoa extends Segurado implements Serializable{
         this.renda = renda;
     }
 
+    @Override
+    public boolean isEmpresa(){
+        return false;
+    }
+
     public String getCpf() {
         return cpf;
     }
