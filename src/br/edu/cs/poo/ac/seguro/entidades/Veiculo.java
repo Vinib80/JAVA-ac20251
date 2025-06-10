@@ -16,8 +16,8 @@ public class Veiculo implements Registro {
     private int ano;
 //    private SeguradoEmpresa proprietarioEmpresa;
 //    private SeguradoPessoa proprietarioPessoa;
-    private CategoriaVeiculo categoria;
     private Segurado Proprietario;
+    private CategoriaVeiculo categoria;
 
     @Override
     public String getIdUnico(){

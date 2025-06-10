@@ -26,24 +26,21 @@ public class Sinistro implements Serializable, Registro {
     private int sequencial;
     private String numeroApolice;
 
+    public Sinistro(String numero, Veiculo veiculo, LocalDateTime dataHoraSinistro, LocalDateTime dataHoraRegistro,
+                    String usuarioRegistro, BigDecimal valorSinistro, TipoSinistro tipo){
+        this.numero = numero;
+        this.veiculo = veiculo;
+        this.dataHoraSinistro = dataHoraSinistro;
+        this.dataHoraRegistro = dataHoraRegistro;
+        this.usuarioRegistro = usuarioRegistro;
+        this.valorSinistro = valorSinistro;
+        this.tipo = tipo;
+    }
+
     @Override
     public String getIdUnico(){
         return this.numero;
     }
 
-    public String getNumApolice(){
-        return this.numeroApolice;
-    }
 
-    public void setNumApolice(String numeroApolice){
-        this.numeroApolice = numeroApolice;
-    }
-
-    public int getSequencial(){
-        return this.sequencial;
-    }
-
-    public void setSequencial(int sequencial){
-        this.sequencial = sequencial;
-    }
 }
