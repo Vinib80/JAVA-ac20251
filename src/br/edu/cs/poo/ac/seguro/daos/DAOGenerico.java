@@ -12,7 +12,7 @@ public abstract class DAOGenerico<T extends Registro> {
         cadastro = new CadastroObjetos(getClasseEntidade());
     }
 
-    protected abstract Class<T> getClasseEntidade();
+    protected abstract Class getClasseEntidade();
 
     public boolean incluir(T obj) {
         if (buscar(obj.getIdUnico()) != null) {

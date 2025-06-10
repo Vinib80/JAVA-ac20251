@@ -6,10 +6,11 @@ import br.edu.cs.poo.ac.seguro.entidades.SeguradoPessoa;
 
 public class SeguradoPessoaDAO extends SeguradoDAO {
     @Override
-    protected Class<Segurado> getClasseEntidade() {
+    protected Class getClasseEntidade() {
         return SeguradoPessoa.class;
     }
 
+    @Override
     public SeguradoPessoa buscar(String numero){
         return (SeguradoPessoa) super.buscar(numero);
     }
