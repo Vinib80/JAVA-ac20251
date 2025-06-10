@@ -6,27 +6,48 @@ import java.io.Serializable;
 
 public abstract class DAOGenerico<T extends Registro> {
 
-    private CadastroObjetos<T> cadastro;
+    protected CadastroObjetos cadastro;
 
-    public DAOGenerico() {
-        cadastro = new CadastroObjetos<>(getClasseEntidade());
+    public boolean incluir(T obj) {
+        if (buscar(obj.getIdUnico()) != null) {
+            return false;
+        } else {
+            cadastro.incluir(obj, obj.getIdUnico());
+            return true;
+        }
     }
 
-    protected abstract Class<T> getClasseEntidade();
-
-    public void incluir(T obj) {
-        cadastro.incluir(obj.getIdUnico(), obj);
-    }
-
-    public void alterar(T obj) {
-        cadastro.alterar(obj.getIdUnico(), obj);
+    public boolean alterar(T obj) {
+        if (buscar(obj.getIdUnico()) == null){
+            return false;
+        } else {
+            cadastro.alterar(obj, obj.getIdUnico());
+            return true;
+        }
     }
 
     public T buscar(String idUnico) {
-        return cadastro.buscar(idUnico);
+        return (T) cadastro.buscar(idUnico);
+    }
+
+    public boolean excluir(String idUnico){
+        if (buscar(idUnico) == null){
+            return false;
+        } else {
+            cadastro.excluir(idUnico);
+            return true;
+        }
     }
 
     public Registro[] buscarTodos() {
-        return cadastro.buscarTodos();
+        Serializable[] resultadoGenereico = cadastro.buscarTodos();
+
+        Registro[] resultadoEspecifico = new Registro[resultadoGenereico.length];
+
+        for (int i = 0; i < resultadoGenereico.length; i++) {
+            resultadoEspecifico[i] = (Registro) resultadoGenereico[i];
+        }
+
+        return resultadoEspecifico;
     }
 }
