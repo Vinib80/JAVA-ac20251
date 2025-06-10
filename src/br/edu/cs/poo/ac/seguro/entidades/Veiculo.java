@@ -11,7 +11,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class Veiculo implements Serializable, Registro {
+public class Veiculo implements Registro {
     private String placa;
     private int ano;
 //    private SeguradoEmpresa proprietarioEmpresa;
