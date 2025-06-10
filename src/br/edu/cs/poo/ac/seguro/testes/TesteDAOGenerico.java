@@ -31,7 +31,7 @@ public class TesteDAOGenerico extends TesteMediator {
 	@Test
 	public void test00() {
 		Assertions.assertTrue(new SeguradoEmpresaDAO() instanceof SeguradoDAO);
-		Assertions.assertTrue(									new SeguradoPessoaDAO() instanceof SeguradoDAO);
+		Assertions.assertTrue(new SeguradoPessoaDAO() instanceof SeguradoDAO);
 		Assertions.assertTrue(new ApoliceDAO() instanceof DAOGenerico);
 		Assertions.assertTrue(new SinistroDAO() instanceof DAOGenerico);
 		Assertions.assertTrue(new VeiculoDAO() instanceof DAOGenerico);
