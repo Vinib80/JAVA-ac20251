@@ -23,9 +23,27 @@ public class Sinistro implements Serializable, Registro {
     private String usuarioRegistro;
     private BigDecimal valorSinistro;
     private TipoSinistro tipo;
+    private int sequencial;
+    private String numeroApolice;
 
     @Override
     public String getIdUnico(){
         return this.numero;
+    }
+
+    public String getNumApolice(){
+        return this.numeroApolice;
+    }
+
+    public void setNumApolice(String numeroApolice){
+        this.numeroApolice = numeroApolice;
+    }
+
+    public int getSequencial(){
+        return this.sequencial;
+    }
+
+    public void setSequencial(int sequencial){
+        this.sequencial = sequencial;
     }
 }
