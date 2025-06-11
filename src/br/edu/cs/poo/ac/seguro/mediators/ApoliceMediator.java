@@ -24,6 +24,7 @@ public class ApoliceMediator {
     private ApoliceDAO daoApo = new ApoliceDAO();
     private SinistroDAO daoSin = new SinistroDAO();
     private static ApoliceMediator instancia = new ApoliceMediator();
+    private String numeroApolice;
 
     public static ApoliceMediator getInstancia() {
         return instancia;
@@ -44,15 +45,21 @@ public class ApoliceMediator {
         else if(dados.getCodigoCategoria() < 1 || dados.getCodigoCategoria() > 5){
             return new RetornoInclusaoApolice(null, "Categoria inválida");
         } else if (dados.getCpfOuCnpj().length() == 11) {
-            if (daoApo.buscar(dados.getCpfOuCnpj()) == null) {
+            if (daoSegPes.buscar(dados.getCpfOuCnpj()) == null) {
                 return new RetornoInclusaoApolice(null, "CPF inexistente no cadastro de pessoas");
             }
+
+            numeroApolice = LocalDate.now().getYear() + "000" + dados.getCpfOuCnpj() + dados.getPlaca();
         } else if (dados.getCpfOuCnpj().length() == 14) {
-            if (daoApo.buscar(dados.getCpfOuCnpj()) == null) {
+            if (daoSegEmp.buscar(dados.getCpfOuCnpj()) == null) {
                 return new RetornoInclusaoApolice(null, "CNPJ inexistente no cadastro de empresas");
             }
+
+            numeroApolice = LocalDate.now().getYear() + dados.getCpfOuCnpj() + dados.getPlaca();
         }
-        return null;
+
+        daoApo.incluir(new Apolice(numeroApolice, daoVel.buscar(dados.getPlaca()), ))
+        return new RetornoInclusaoApolice(numeroApolice, null);
     }
 
     public Apolice buscarApolice(String numero) {
