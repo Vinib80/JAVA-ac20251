@@ -159,7 +159,7 @@ public class ApoliceMediator {
             boolean mesmoAno = sinistro.getDataHoraSinistro().getYear() == apoliceExcluir.getDataInicioVigencia().getYear();
 
             if (mesmoVeiculo && mesmoAno) {
-                return "Existe sinistro cadastrado para o veiculo em questão e no mesmo ano da apólice";
+                return "Existe sinistro cadastrado para o veículo em questão e no mesmo ano da apólice";
             }
         }
 
