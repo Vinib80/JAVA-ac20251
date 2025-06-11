@@ -1,8 +1,13 @@
 package br.edu.cs.poo.ac.seguro.mediators;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-
+import br.edu.cs.poo.ac.seguro.entidades.*;
 import br.edu.cs.poo.ac.seguro.daos.ApoliceDAO;
 import br.edu.cs.poo.ac.seguro.daos.SinistroDAO;
 import br.edu.cs.poo.ac.seguro.daos.VeiculoDAO;
@@ -46,42 +51,37 @@ public class SinistroMediator {
                 excecao.getMensagens().add("Valor do sinistro deve ser maior que zero.");
             }
 
-            if (TipoSinistro.buscarPorCodigo(dados.getCodigoTipoSinistro()) == null) {
+            if (TipoSinistro.getTipoSinistro(dados.getCodigoTipoSinistro()) == null) {
                 excecao.getMensagens().add("Código do tipo de sinistro inválido.");
             }
 
-            Veiculo veiculo = daoVeiculo.buscar(dados.getPlaca());
-            if (veiculo == null) {
-                excecao.getMensagens().add("Placa não corresponde a nenhum veículo cadastrado.");
-            }
-
-            Apolice[] todasApolices = daoApolice.buscarTodos();
             Apolice apoliceVigente = null;
-            if (veiculo != null) {
-                for (Apolice apolice : todasApolices) {
-                    if (apolice.getVeiculo().getPlaca().equals(veiculo.getPlaca())) {
-                        LocalDateTime inicio = apolice.getInicioVigencia();
-                        LocalDateTime fim = inicio.plusYears(1);
-                        if (!dados.getDataHoraSinistro().isBefore(inicio) &&
-                                dados.getDataHoraSinistro().isBefore(fim)) {
-                            apoliceVigente = apolice;
-                            break;
-                        }
+            Registro[] todasOsRegistros = daoApolice.buscarTodos();
+            for (Registro registro : todasOsRegistros){
+                Apolice apolice = (Apolice) registro;
+                if(apolice.getVeiculo().getPlaca().equals(dados.getPlaca())) {
+                    LocalDate inicioApolice = apolice.getDataInicioVigencia();
+                    LocalDate fim = inicioApolice.plusYears(1);
+                    LocalDate dataSinistro = dados.getDataHoraSinistro().toLocalDate();
+
+                    if (!dataSinistro.isAfter(inicioApolice) &&
+                            dataSinistro.isBefore(fim)) {
+                        apoliceVigente = apolice;
+                        break;
                     }
                 }
-                if (apoliceVigente == null) {
-                    excecao.getMensagens().add("Nenhuma apólice vigente encontrada para este veículo.");
-                } else if (dados.getValorSinistro() > apoliceVigente.getValorPremioMaximo()) {
-                    excecao.getMensagens().add("Valor do sinistro excede o valor máximo segurado da apólice.");
-                }
+            }
+            if (apoliceVigente == null) {
+                excecao.getMensagens().add("Nenhuma apólice vigente encontrada para este veículo.");
+            } else if (BigDecimal.valueOf(dados.getValorSinistro()).compareTo(apoliceVigente.getValorPremio()) > 0) {
+                excecao.getMensagens().add("Valor do sinistro excede o valor máximo segurado da apólice.");
             }
 
             if (!excecao.getMensagens().isEmpty()) {
                 throw excecao;
             }
 
-            // Busca sinistros existentes com a mesma apólice
-            Sinistro[] todosSinistros = daoSinistro.buscarTodos();
+            Sinistro[] todosSinistros = (Sinistro[]) daoSinistro.buscarTodos();
             List<Sinistro> sinistrosMesmaApolice = new ArrayList<>();
             for (Sinistro s : todosSinistros) {
                 if (s.getNumeroApolice().equals(apoliceVigente.getNumero())) {
@@ -100,12 +100,14 @@ public class SinistroMediator {
 
             Sinistro sinistro = new Sinistro(
                     numeroSinistro,
+                    veiculo,
                     dados.getDataHoraSinistro(),
+                    dataHoraAtual,
                     dados.getUsuarioRegistro(),
-                    dados.getValorSinistro(),
-                    TipoSinistro.buscarPorCodigo(dados.getCodigoTipoSinistro()),
-                    veiculo
+                    BigDecimal.valueOf(dados.getValorSinistro()),
+                    TipoSinistro.getTipoSinistro(dados.getCodigoTipoSinistro())
             );
+
             sinistro.setNumeroApolice(apoliceVigente.getNumero());
             sinistro.setSequencial(sequencial);
 
