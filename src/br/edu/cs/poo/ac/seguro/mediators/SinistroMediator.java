@@ -29,6 +29,7 @@ public class SinistroMediator {
 
     public String incluirSinistro(DadosSinistro dados, LocalDateTime dataHoraAtual) throws ExcecaoValidacaoDados {
         ExcecaoValidacaoDados excecao = new ExcecaoValidacaoDados();
+        Veiculo veiculo = daoVeiculo.buscar(dados.getPlaca());
 
         if (dados == null) {
             excecao.getMensagens().add("Dados do sinistro não podem ser nulos.");
