@@ -1,15 +1,13 @@
 package br.edu.cs.poo.ac.seguro.entidades;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import java.io.Serializable;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(of = {"placa"})
 
 public class Veiculo implements Registro {
     private String placa;
