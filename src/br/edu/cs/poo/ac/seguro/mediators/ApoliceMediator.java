@@ -141,7 +141,7 @@ public class ApoliceMediator {
 
     public String excluirApolice(String numero) {
         if (StringUtils.ehNuloOuBranco(numero)) {
-            return "Numero deve ser informado";
+            return "Número deve ser informado";
         }
         if (buscarApolice(numero) == null) {
             return "Apólice inexistente";
