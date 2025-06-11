@@ -36,7 +36,7 @@ public class ApoliceMediator {
     public RetornoInclusaoApolice incluirApolice(DadosVeiculo dados) {
         if (validarTodosDadosVeiculo(dados) != null) {
             return new RetornoInclusaoApolice(null, validarTodosDadosVeiculo(dados));
-        } else if (buscarApolice(dados.getAno() + "000" + dados.getCpfOuCnpj() + dados.getPlaca()) != null) {
+        } else if (buscarApolice(LocalDate.now().getYear() + "000" + dados.getCpfOuCnpj() + dados.getPlaca()) != null) {
             return new RetornoInclusaoApolice(null, "Apólice já existente para ano atual e veículo");
         } else if(dados.getCodigoCategoria() < 1 || dados.getCodigoCategoria() > 5){
             return new RetornoInclusaoApolice(null, "Categoria inválida");
@@ -53,8 +53,10 @@ public class ApoliceMediator {
     }
 
     public Apolice buscarApolice(String numero) {
-
-        return null;
+        if(StringUtils.ehNuloOuBranco(numero)){
+            return null;
+        }
+        return daoApo.buscar(numero);
     }
 
     public String excluirApolice(String numero) {
