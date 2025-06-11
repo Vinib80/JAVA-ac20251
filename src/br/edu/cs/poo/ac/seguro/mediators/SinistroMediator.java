@@ -2,6 +2,7 @@ package br.edu.cs.poo.ac.seguro.mediators;
 
 import java.time.LocalDateTime;
 
+
 import br.edu.cs.poo.ac.seguro.daos.ApoliceDAO;
 import br.edu.cs.poo.ac.seguro.daos.SinistroDAO;
 import br.edu.cs.poo.ac.seguro.daos.VeiculoDAO;

@@ -5,6 +5,7 @@ import java.util.List;
 
 public class ExcecaoValidacaoDados extends Exception {
 
+
     private List<String> mensagens;
 
     public ExcecaoValidacaoDados() {
