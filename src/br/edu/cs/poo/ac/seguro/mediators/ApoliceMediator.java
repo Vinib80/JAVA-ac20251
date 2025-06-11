@@ -140,6 +140,30 @@ public class ApoliceMediator {
     }
 
     public String excluirApolice(String numero) {
+        if (StringUtils.ehNuloOuBranco(numero)) {
+            return "Numero deve ser informado";
+        }
+        if (buscarApolice(numero) == null) {
+            return "Apólice inexistente";
+        }
+
+        Apolice apoliceExcluir = daoApo.buscar(numero);
+        Veiculo veiculoDaApolice = apoliceExcluir.getVeiculo();
+
+        Registro[] todosOsSinistros = daoSin.buscarTodos();
+        for (Registro reg : todosOsSinistros) {
+            Sinistro sinistro = (Sinistro) reg;
+
+            boolean mesmoVeiculo = sinistro.getVeiculo().equals(veiculoDaApolice);
+
+            boolean mesmoAno = sinistro.getDataHoraSinistro().getYear() == apoliceExcluir.getDataInicioVigencia().getYear();
+
+            if (mesmoVeiculo && mesmoAno) {
+                return "Existe sinistro cadastrado para o veiculo em questão e no mesmo ano da apólice";
+            }
+        }
+
+        daoApo.excluir(numero);
         return null;
     }
 

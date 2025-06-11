@@ -15,6 +15,15 @@ public class DadosVeiculo {
     private int codigoCategoria;
     private boolean indicadorLocadora;
 
+    public DadosVeiculo(String cpfOuCnpj, String placa, int ano, BigDecimal valorMaximoSegurado,
+                        int codigoCategoria) {
+        this.cpfOuCnpj = cpfOuCnpj;
+        this.placa = placa;
+        this.ano = ano;
+        this.valorMaximoSegurado = valorMaximoSegurado;
+        this.codigoCategoria = codigoCategoria;
+    }
+
     void setCodigoCategoria(int codigoCategoria) {
         this.codigoCategoria = codigoCategoria;
     }
