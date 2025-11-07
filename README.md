@@ -212,6 +212,6 @@ Desenvolvido como projeto acadêmico para a disciplina de Programação Orientad
 
 ---
 
-**Instituição**: Centro de Estudos - Curso de Ciência da Computação  
+**Instituição**: CESAR School - Curso de Ciência da Computação  
 **Período**: 3º Período  
 **Ano**: 2025
